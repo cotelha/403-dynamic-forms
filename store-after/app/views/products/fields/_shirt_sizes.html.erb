@@ -1,4 +1,4 @@
 <div class="field">
-  <%= f.label field.name %><br />
-  <%= f.select field.name, %w[S M L XL], {}, {multiple: true} %>
+  <%= f.label f.object.label_name %><br />
+  <%= f.select :data, options_for_select([["S", "S"], ["M", "M"], ["L", "L"], ["XL", "XL"]], JSON.parse(f.object.data)), {}, {multiple: true} %>
 </div>

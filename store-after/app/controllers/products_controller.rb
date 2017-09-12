@@ -9,6 +9,7 @@ class ProductsController < ApplicationController
 
   def new
     @product = Product.new(product_type_id: params[:product_type_id])
+    @product.product_type.fields.each { |field| @product.product_properties.build(:product_field_id=>field.id, field_type: field.field_type, label_name: field.name) }
   end
 
   def edit
@@ -16,7 +17,7 @@ class ProductsController < ApplicationController
   end
 
   def create
-    @product = Product.new(params[:product])
+    @product = Product.new(product_params)
     if @product.save
       redirect_to @product, notice: 'Product was successfully created.'
     else
@@ -26,7 +27,7 @@ class ProductsController < ApplicationController
 
   def update
     @product = Product.find(params[:id])
-    if @product.update_attributes(params[:product])
+    if @product.update_attributes(product_params)
       redirect_to @product, notice: 'Product was successfully updated.'
     else
       render action: "edit"
@@ -37,5 +38,9 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
     @product.destroy
     redirect_to products_url
+  end
+
+  def product_params
+    params.require(:product).permit(:name, :price, :product_type_id, product_properties_attributes: [:id, :product_field_id, {:data => []}, :product_id])
   end
 end

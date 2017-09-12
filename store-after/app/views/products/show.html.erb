@@ -10,10 +10,10 @@
   <%= number_to_currency @product.price %>
 </p>
 
-<% @product.properties.each do |name, value| %>
+<% @product.product_properties.each do |property| %>
   <p>
-    <b><%= name.humanize %>:</b>
-    <%= value %>
+    <b><%= property.label_name %>:</b>
+    <%= property.data %>
   </p>
 <% end %>
 
